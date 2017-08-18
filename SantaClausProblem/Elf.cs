@@ -32,6 +32,12 @@ namespace SantaClausProblem
                 }
                 Program.m.ReleaseMutex();
                 Program.elfSem.WaitOne();
+                Monitor.Enter(o);
+                count++;
+                Monitor.Exit(o);
+                while (count < 2)
+                {
+                }
                 GetHelp();
                 Program.m.WaitOne();
                 Program.elfCount--;
@@ -42,7 +48,10 @@ namespace SantaClausProblem
                     Program.elSem2.Release(1);
                 }
                 Program.m.ReleaseMutex();
-                //Thread.Sleep(100);
+                Monitor.Enter(o);
+                count = 0;
+                Monitor.Exit(o);
+                //Thread.Sleep(200);
             }
         }
 

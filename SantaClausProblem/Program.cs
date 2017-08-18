@@ -32,15 +32,15 @@ namespace SantaClausProblem
 
         private void Run()
         {
+            santaThread = new Thread(new ThreadStart(Santa.SantaTask));
+            santaThread.Name = "Santa";
+            santaThread.Start();
             for (int i = 0; i < 3; i++)
             {
                 elfThreads[i] = new Thread(new ThreadStart(Elf.ElfTask));
                 elfThreads[i].Name = "Elf #" + i;
                 elfThreads[i].Start();
             }
-            santaThread = new Thread(new ThreadStart(Santa.SantaTask));
-            santaThread.Name = "Santa";
-            santaThread.Start();
             for (int i = 0; i < 9; i++)
             {
                 reindeerThreads[i] = new Thread(new ThreadStart(Reindeer.ReindeerTask));

@@ -9,20 +9,26 @@ namespace SantaClausProblem
 {
     class Elf
     {
+        private static int count = 0;
+        private static object o = new object();
         public static void ElfTask()
         {
             while (true)
             {
-                Program.elfMutex.WaitOne();
+                //Program.elfMutex.WaitOne();
+                Program.elSem2.WaitOne();
                 Program.m.WaitOne();
                 Program.elfCount++;
                 if (Program.elfCount == 3)
                 {
+                    //Console.WriteLine(Thread.CurrentThread.Name + "Santa");
                     Program.santaSem.Release();
                 }
                 else
                 {
-                    Program.elfMutex.ReleaseMutex();
+                    //Console.WriteLine(Thread.CurrentThread.Name);
+                    //Program.elfMutex.ReleaseMutex();
+                    Program.elSem2.Release(1);
                 }
                 Program.m.ReleaseMutex();
                 Program.elfSem.WaitOne();
@@ -31,17 +37,18 @@ namespace SantaClausProblem
                 Program.elfCount--;
                 if (Program.elfCount == 0)
                 {
-                    Console.WriteLine(Thread.CurrentThread.Name);
-                    Program.elfMutex.ReleaseMutex();
+                    //Console.WriteLine(Thread.CurrentThread.Name);
+                    //Program.elfMutex.ReleaseMutex();
+                    Program.elSem2.Release(1);
                 }
                 Program.m.ReleaseMutex();
-                Thread.Sleep(500);
+                //Thread.Sleep(100);
             }
         }
 
         private static void GetHelp()
         {
-            Console.WriteLine("Elf getting help");
+            Console.WriteLine("{0} getting help", Thread.CurrentThread.Name);
         }
     }
 }

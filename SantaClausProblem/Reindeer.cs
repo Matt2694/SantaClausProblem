@@ -22,7 +22,7 @@ namespace SantaClausProblem
                 Program.m.ReleaseMutex();
                 Program.reindeerSem.WaitOne();
                 GetHitched();
-                Thread.Sleep(5000);
+                Thread.Sleep(500);
             }
         }
 
